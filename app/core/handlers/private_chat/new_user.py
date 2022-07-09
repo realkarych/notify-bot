@@ -16,7 +16,7 @@ async def cmd_start(m: types.Message):
     session = UserDAO(session=m.bot.get("db"))
     await session.add_user(user)
 
-    await m.answer(msgs.welcome(user_firsname=user.firstname), reply_markup=reply.default)
+    await m.answer(msgs.welcome(user_firstname=user.firstname), reply_markup=reply.default)
 
 
 def register_handlers(dp: Dispatcher) -> None:
