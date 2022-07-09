@@ -2,7 +2,7 @@
 
 ## App description
 
-Simple notification service in Telegram.
+Simple reminder service in Telegram.
 
 ## Stack
 
