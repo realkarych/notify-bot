@@ -18,10 +18,10 @@ class ResizedReplyKeyboard(ReplyKeyboardMarkup):
 default = ResizedReplyKeyboard(
     keyboard=[
         [
-            KeyboardButton(reply.add_notification)
+            KeyboardButton(reply.add_reminder)
         ],
         [
-            KeyboardButton(reply.notification_list)
+            KeyboardButton(reply.reminder_list)
         ],
         [
             KeyboardButton(reply.check_stats),
