@@ -2,7 +2,7 @@
 
 ## App description
 
-Simple notification service in Telegram. 
+Simple notification service in Telegram.
 
 ## Stack
 
@@ -19,7 +19,6 @@ Check it in DOCS.md
 ## Links
 
 Bot: https://t.me/NotifykaBot.
-
 
 ## Credits
 

@@ -1,4 +1,4 @@
-from aiogram.utils.markdown import hbold as bold, hlink as link
+from aiogram.utils.markdown import hbold as bold
 
 
 def welcome(user_firsname: str) -> str:

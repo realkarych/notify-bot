@@ -1,5 +1,4 @@
 from aiogram import types, Dispatcher
-from aiogram.types import ChatType
 
 from app.core.keyboards import reply
 from app.core.messages.private_chat import new_user as msgs
