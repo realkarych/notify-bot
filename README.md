@@ -1,30 +1,25 @@
-# Aioplate. <a href="https://github.com/devkarych/aioplate/blob/main/DOCS.md">Read the docs</a>
-
-### ⬆ ⬆ ⬆ ⬆ ⬆ ⬆ ⬆ ⬆ ⬆ ⬆
-
-### Below is a universal template for you project description.
-
-# App Name
+# Notify Bot (For RU users)
 
 ## App description
 
-...
+Simple notification service in Telegram. 
 
 ## Stack
 
-...
+- Python 3.10+
+- Aiogram 2.21+
+- APScheduler
+- PostgreSQL (SQLalchemy + asyncpg + alembic)
+- PyLint as code analyzer
 
 ## Installation guide
 
-...
+Check it in DOCS.md
 
 ## Links
 
-...
+Bot: https://t.me/NotifykaBot.
 
-## Screenshots & video-previews
-
-...
 
 ## Credits
 
