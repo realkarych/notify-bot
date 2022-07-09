@@ -1,15 +1,10 @@
 [bot]
 token =
-parse_mode = set HTML or MarkdownV2. HTML is default.
+parse_mode = HTML
 
 [db]
 host = localhost
 port = 5432
-name =
+name = notifyka
 user =
 password =
-
-[redis]
-host = localhost
-port = 6379
-db =
