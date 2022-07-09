@@ -14,6 +14,7 @@ class ResizedReplyKeyboard(ReplyKeyboardMarkup):
         self.resize_keyboard = True
 
 
+# Markup with default menu buttons
 default = ResizedReplyKeyboard(
     keyboard=[
         [
