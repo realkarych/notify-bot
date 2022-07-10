@@ -12,7 +12,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 from app.core import middlewares
 from app.core.handlers.factory import DefaultHandlersFactory
 from app.core.handlers.private_chat import (
-    new_user, reminder
+    base, reminder
 )
 from app.core.navigations.command import set_bot_commands
 from app.core.updates import worker
@@ -59,7 +59,7 @@ async def main() -> None:
     # Middlewares setup. Register middlewares provided to __init__.py in middlewares package.
     middlewares.setup(dispatcher=dp)
     # Provide your default handler-modules into register() func.
-    DefaultHandlersFactory(dp).register(new_user, reminder)
+    DefaultHandlersFactory(dp).register(base, reminder)
     _setup_cron_jobs(scheduler=_init_scheduler(), bot=bot)
 
     try:
