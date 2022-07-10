@@ -1,6 +1,9 @@
+import asyncio
+
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
+from aiogram.types import ChatActions
 
 from app.core.keyboards import reply
 from app.core.messages.private_chat import base as msgs
@@ -31,12 +34,22 @@ async def btn_stats(m: types.Message):
     user_dao = UserDAO(session=m.bot.get("db"))
     rem_dao = ReminderDAO(session=m.bot.get("db"))
 
+    await m.answer_chat_action(ChatActions.TYPING)
+    await asyncio.sleep(1)
     await m.answer(msgs.get_stats(users_count=await user_dao.count(),
                                   reminders_count=await rem_dao.count()))
 
 
+async def btn_about_bot(m: types.Message):
+    """Display message about bot"""
+    await m.answer_chat_action(ChatActions.TYPING)
+    await asyncio.sleep(1)
+    await m.answer(msgs.about_bot)
+
+
 def register_handlers(dp: Dispatcher) -> None:
-    """Register handlers for newcomers"""
+    """Register base handlers."""
 
     dp.register_message_handler(cmd_start, commands=str(Commands.start), state="*")
     dp.register_message_handler(btn_stats, Text(equals=reply_nav.check_stats))
+    dp.register_message_handler(btn_about_bot, Text(equals=reply_nav.about_bot))
