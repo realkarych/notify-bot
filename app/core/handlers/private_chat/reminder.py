@@ -59,7 +59,8 @@ async def submit_hours(call: CallbackQuery, state: FSMContext):
     """User submitted the hour by inl button click"""
 
     async with state.proxy() as data:
-        data['date'] = data['date'].replace(hour=int(call.data.replace("hour_", "")))
+        submitted_hour = int(call.data.replace("hour_", ""))
+        data['date'] = data['date'].replace(hour=submitted_hour)
 
     await call.message.edit_text(msgs.set_minutes)
     await call.message.edit_reply_markup(inline.minutes())
@@ -71,7 +72,8 @@ async def submit_minutes(call: CallbackQuery, state: FSMContext):
     """User submitted the minute by inl button click"""
 
     async with state.proxy() as data:
-        data['date'] = data['date'].replace(minute=int(call.data.replace("minute_", "")))
+        submitted_minute = int(call.data.replace("minute_", ""))
+        data['date'] = data['date'].replace(minute=submitted_minute)
 
     await call.message.edit_reply_markup(None)
     await call.message.edit_text(msgs.reminder_created)
