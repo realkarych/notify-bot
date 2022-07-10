@@ -1,5 +1,9 @@
 import datetime
 
+from aiogram.utils.markdown import hcode as mono
+
+from app.models import dto
+
 enter_reminder_text = "✍ <i>Введи <b>текст напоминалки</b> одним сообщением:</i>"
 set_time_on_calendar = "<i>Отлично! Теперь выбери <b>дату</b> отправки напоминалки:</i>"
 
@@ -31,8 +35,21 @@ def date_missed(submitted_date: datetime.datetime) -> str:
            f"некорректны, так как нельзя создать напоминалку в прошлом...</i>"
 
 
-reminder_limit_exceeded = "<i> ❌ <b>Напоминалка не создана</b>\n\nИзвиняй. Нельзя создать больше 10 " \
-                          "напоминалок. Либо удаляй лишние, либо подожди</i>"
+reminder_limit_exceeded = "<i> ❌ <b>Напоминалка не создана</b>\n\nИзвиняй. " \
+                          "Нельзя создать больше 10 напоминалок. Либо удаляй лишние, " \
+                          "либо подожди</i>"
 
 
 return_to_default_menu = "🔙  <i>Возвращаемся в главное меню!</i>"
+
+
+def reminder_about(reminder: dto.Reminder) -> str:
+    """Returns reminder about message"""
+    utc_3_hour = (reminder.notify_time.hour + 3) % 24
+    reminder.notify_time = reminder.notify_time.replace(hour=utc_3_hour)
+    return f"<i>{mono(reminder.text)}\n\nВремя отправки: " \
+           f"{reminder.notify_time.strftime('%d/%m/%Y')}; " \
+           f"{reminder.notify_time.strftime('%H:%M')}</i>"
+
+
+no_added_reminders = "<i>У тебя пока нет добавленных напоминалок</i>"

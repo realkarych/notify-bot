@@ -39,3 +39,22 @@ def _build_time_markup(
             btns_counter += 1
 
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+
+def reminder_params(reminder_id: int) -> InlineKeyboardMarkup:
+    """Returns unique reminder-params keyboard"""
+    inline_callback = InlineCallback(
+        text=inline.delete_reminder.text,
+        callback=inline.delete_reminder.callback
+    )
+
+    # Update callback from "reminder_delete" to "reminder_delete_ReminderID"
+    # This case helps to provide unique callback for reminder distinguishing
+    inline_callback.callback = inline_callback.callback + f"_{str(reminder_id)}"
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                inline_callback.to_inline_button()
+            ]
+        ]
+    )

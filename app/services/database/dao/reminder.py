@@ -1,7 +1,7 @@
 from sqlalchemy import delete, select, func
 from sqlalchemy.orm import sessionmaker
 
-from app.models import dto, database
+from app.models import dto
 from app.models.database import Reminder
 from app.services.database.dao.base import BaseDAO
 
@@ -31,7 +31,7 @@ class ReminderDAO(BaseDAO[Reminder]):
 
         async with self._session() as session:
             await session.execute(
-                delete(database.Reminder).where(database.Reminder.id == reminder_id)
+                delete(Reminder).where(Reminder.id == reminder_id)
             )
             await session.commit()
 
@@ -46,15 +46,23 @@ class ReminderDAO(BaseDAO[Reminder]):
             count = executed.scalar_one()
             return count
 
+    async def get_user_reminders(self, user_id: int) -> list[dto.Reminder]:
+        """Return list of added user reminders"""
+        async with self._session() as session:
+            reminders_request = await session.execute(select(Reminder).
+                                                      where(Reminder.user_id == user_id))
+            reminders = reminders_request.scalars().all()
+            return [dto.Reminder.from_db(reminder) for reminder in reminders]
 
-def _map_to_db_reminder(reminder: dto.Reminder) -> database.Reminder:
+
+def _map_to_db_reminder(reminder: dto.Reminder) -> Reminder:
     """
     Maps DTO -> database reminder
     :param reminder:
     :return: database reminder
     """
 
-    return database.Reminder(
+    return Reminder(
         user_id=reminder.owner_id,
         text=reminder.text,
         notify_time=reminder.notify_time

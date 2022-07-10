@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from aiogram.types import InlineKeyboardButton
 
 
-@dataclass(frozen=True)
+@dataclass
 class InlineCallback:
     """Represents inline callback object"""
 
@@ -27,3 +27,5 @@ minutes = [InlineCallback(
     text=str(minute),
     callback=f"minute_{minute}") for minute in range(0, 60, 5)
 ]
+
+delete_reminder = InlineCallback(text="Удалить", callback="reminder_delete")
