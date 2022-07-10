@@ -48,7 +48,6 @@ async def calendar_process(call: CallbackQuery, state: FSMContext, callback_data
 
     selected, date = await Calendar().process_selection(call, callback_data)
     if selected:
-
         async with state.proxy() as data:
             data['date']: datetime.datetime = date
             await call.message.edit_text(msgs.set_hours(submitted_date=date))
@@ -73,21 +72,23 @@ async def submit_hours(call: CallbackQuery, state: FSMContext):
 async def submit_minutes(call: CallbackQuery, state: FSMContext):
     """User submitted the minute by inl button click"""
 
+    await call.message.edit_reply_markup(None)
+
     async with state.proxy() as data:
         submitted_minute = int(call.data.replace("minute_", ""))
         # Now, date is ready
         data['date'] = data['date'].replace(minute=submitted_minute)
 
-        await call.message.edit_reply_markup(None)
-
         # Check if date is in the future
         if datetime.datetime.now() < data['date']:
             await call.message.edit_text(msgs.reminder_created(data['date']))
 
-            await ReminderDAO(session=call.bot.get("db")).add_reminder(reminder=Reminder(
-                owner_id=call.from_user.id, notify_time=data['date'], text=data['reminder']
-            ))
-
+            await ReminderDAO(session=call.bot.get("db")).add_reminder(
+                reminder=Reminder(
+                    owner_id=call.from_user.id,
+                    notify_time=data['date'],
+                    text=data['reminder']
+                ))
         # Date is missed
         else:
             await call.message.edit_text(msgs.date_missed(submitted_date=data['date']))
