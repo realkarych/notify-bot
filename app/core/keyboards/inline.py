@@ -34,7 +34,7 @@ def _build_time_markup(
 
     for cur_line in range(lines_count):
         keyboard.append([])
-        for cur_btn in range(line_len):
+        for _ in range(line_len):
             keyboard[cur_line].append(buttons[btns_counter].to_inline_button())
             btns_counter += 1
 

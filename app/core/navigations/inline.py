@@ -18,5 +18,12 @@ class InlineCallback:
 
 cancel = InlineCallback(text="Отмена", callback="cancel")
 
-hours = [InlineCallback(text=str(hour), callback=f"hour_{hour}") for hour in range(24)]
-minutes = [InlineCallback(text=str(minute), callback=f"minute_{minute}") for minute in range(0, 60, 5)]
+hours = [InlineCallback(
+    text=str(hour),
+    callback=f"hour_{hour}") for hour in range(24)
+]
+
+minutes = [InlineCallback(
+    text=str(minute),
+    callback=f"minute_{minute}") for minute in range(0, 60, 5)
+]

@@ -95,7 +95,8 @@ def register_handlers(dp: Dispatcher) -> None:
 
     dp.register_message_handler(btn_add_reminder, Text(equals=[reply_nav.add_reminder]))
     dp.register_message_handler(btn_cancel, Text(equals=[cancel]), state="*")
-    dp.register_callback_query_handler(calendar_process, calendar_callback.filter(), state=ReminderAddition.date)
+    dp.register_callback_query_handler(calendar_process, calendar_callback.filter(),
+                                       state=ReminderAddition.date)
     dp.register_message_handler(state_submit_reminder, state=ReminderAddition.text)
     dp.register_callback_query_handler(submit_hours, state=ReminderAddition.hours)
     dp.register_callback_query_handler(submit_minutes, state=ReminderAddition.minutes)

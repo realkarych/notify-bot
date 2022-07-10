@@ -12,6 +12,7 @@ calendar_callback = CallbackData('simple_calendar', 'act', 'year', 'month', 'day
 
 
 class Calendar:
+    """Inline date-submitting pipeline executor"""
 
     @staticmethod
     async def start_calendar(
