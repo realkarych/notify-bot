@@ -28,7 +28,7 @@ class BaseDAO(Generic[Model]):
 
         async with self._session() as session:
             result = await session.execute(select(self._model))
-            return result.all()
+            return result.scalars().all()
 
     async def get_by_id(self, id_: int) -> Model:
         """

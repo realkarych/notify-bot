@@ -26,8 +26,9 @@ class Reminder(Base):
 
     __tablename__ = "reminders"
 
+    id = Column(BigInteger, primary_key=True, unique=True, autoincrement=True)
     # Telegram id of reminder owner
-    user_id = Column(BigInteger, primary_key=True, unique=True, autoincrement=False)
+    user_id = Column(BigInteger, unique=False, default=None)
     # Reminder's content
     text = Column(String, default=None)
     notify_time = Column(DateTime(timezone=True), default=None)

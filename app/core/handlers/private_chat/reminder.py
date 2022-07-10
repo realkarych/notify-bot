@@ -83,6 +83,7 @@ async def submit_minutes(call: CallbackQuery, state: FSMContext):
         if datetime.datetime.now() < data['date']:
             await call.message.edit_text(msgs.reminder_created(data['date']))
 
+            # Adding reminder to database
             await ReminderDAO(session=call.bot.get("db")).add_reminder(
                 reminder=Reminder(
                     owner_id=call.from_user.id,

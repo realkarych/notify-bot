@@ -54,6 +54,7 @@ class Reminder:
     owner_id: int
     text: str
     notify_time: datetime.datetime
+    id: int | None = None
 
     @classmethod
     def from_db(cls, reminder: database.Reminder) -> Reminder:
@@ -65,7 +66,8 @@ class Reminder:
         return cls(
             owner_id=reminder.user_id,
             text=reminder.text,
-            notify_time=reminder.notify_time
+            notify_time=reminder.notify_time,
+            id=reminder.id
         )
 
 
