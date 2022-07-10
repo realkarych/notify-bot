@@ -46,11 +46,11 @@ async def calendar_process(call: CallbackQuery, state: FSMContext, callback_data
 
     selected, date = await Calendar().process_selection(call, callback_data)
     if selected:
-        await call.message.edit_text(msgs.set_hours)
-        await call.message.edit_reply_markup(inline.hours())
 
         async with state.proxy() as data:
             data['date']: datetime.datetime = date
+            await call.message.edit_text(msgs.set_hours(submitted_date=date))
+            await call.message.edit_reply_markup(inline.hours())
 
         await ReminderAddition.hours.set()
 
@@ -62,8 +62,8 @@ async def submit_hours(call: CallbackQuery, state: FSMContext):
         submitted_hour = int(call.data.replace("hour_", ""))
         data['date'] = data['date'].replace(hour=submitted_hour)
 
-    await call.message.edit_text(msgs.set_minutes)
-    await call.message.edit_reply_markup(inline.minutes())
+        await call.message.edit_text(msgs.set_minutes(data['date']))
+        await call.message.edit_reply_markup(inline.minutes())
 
     await ReminderAddition.minutes.set()
 
@@ -76,11 +76,10 @@ async def submit_minutes(call: CallbackQuery, state: FSMContext):
         data['date'] = data['date'].replace(minute=submitted_minute)
 
     await call.message.edit_reply_markup(None)
-    await call.message.edit_text(msgs.reminder_created)
+    await call.message.edit_text(msgs.reminder_created(data['date']))
 
     await call.message.answer_chat_action(ChatActions.TYPING)
     await asyncio.sleep(1)
-
     await call.message.answer(msgs.return_to_default_menu, reply_markup=reply.default)
     await state.finish()
 
