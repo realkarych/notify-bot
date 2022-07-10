@@ -81,15 +81,24 @@ async def submit_minutes(call: CallbackQuery, state: FSMContext):
 
         # Check if date is in the future
         if datetime.datetime.now() < data['date']:
-            await call.message.edit_text(msgs.reminder_created(data['date']))
+            dao = ReminderDAO(session=call.bot.get("db"))
 
-            # Adding reminder to database
-            await ReminderDAO(session=call.bot.get("db")).add_reminder(
-                reminder=Reminder(
-                    owner_id=call.from_user.id,
-                    notify_time=data['date'],
-                    text=data['reminder']
-                ))
+            # Check if reminders limit exceeded
+            if await dao.get_reminders_count_by_user_id(user_id=call.from_user.id) < 10:
+                await call.message.edit_text(msgs.reminder_created(data['date']))
+
+                # Adding reminder to database
+                await dao.add_reminder(
+                    reminder=Reminder(
+                        owner_id=call.from_user.id,
+                        notify_time=data['date'],
+                        text=data['reminder']
+                    ))
+
+            # Reminders limit exceeded
+            else:
+                await call.message.edit_text(msgs.reminder_limit_exceeded)
+
         # Date is missed
         else:
             await call.message.edit_text(msgs.date_missed(submitted_date=data['date']))

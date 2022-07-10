@@ -1,4 +1,4 @@
-from sqlalchemy import delete
+from sqlalchemy import delete, select, func
 from sqlalchemy.orm import sessionmaker
 
 from app.models import dto, database
@@ -34,6 +34,17 @@ class ReminderDAO(BaseDAO[Reminder]):
                 delete(database.Reminder).where(database.Reminder.id == reminder_id)
             )
             await session.commit()
+
+    async def get_reminders_count_by_user_id(self, user_id: int) -> int:
+        """Returns active reminders count by user id"""
+
+        async with self._session() as session:
+            executed = await session.execute(select(func.count()).
+                                             select_from(select(Reminder).
+                                                         where(Reminder.user_id == user_id).
+                                                         subquery()))
+            count = executed.scalar_one()
+            return count
 
 
 def _map_to_db_reminder(reminder: dto.Reminder) -> database.Reminder:
