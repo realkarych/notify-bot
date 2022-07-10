@@ -13,6 +13,8 @@ from app.core.middlewares.throttling import throttle
 from app.core.navigations import reply as reply_nav
 from app.core.navigations.reply import cancel
 from app.core.states.reminder import ReminderAddition
+from app.models.dto import Reminder
+from app.services.database.dao.reminder import ReminderDAO
 
 
 async def btn_cancel(m: types.Message, state: FSMContext):
@@ -78,9 +80,15 @@ async def submit_minutes(call: CallbackQuery, state: FSMContext):
 
         await call.message.edit_reply_markup(None)
 
-        # Check if date is missed
+        # Check if date is in the future
         if datetime.datetime.now() < data['date']:
             await call.message.edit_text(msgs.reminder_created(data['date']))
+
+            await ReminderDAO(session=call.bot.get("db")).add_reminder(reminder=Reminder(
+                owner_id=call.from_user.id, notify_time=data['date'], text=data['reminder']
+            ))
+
+        # Date is missed
         else:
             await call.message.edit_text(msgs.date_missed(submitted_date=data['date']))
 

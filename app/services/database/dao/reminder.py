@@ -2,19 +2,19 @@ from sqlalchemy import delete
 from sqlalchemy.orm import sessionmaker
 
 from app.models import dto, database
-from app.models.database import User
+from app.models.database import Reminder
 from app.services.database.dao.base import BaseDAO
 
 
-class ReminderDAO(BaseDAO[User]):
-    """ORM queries for users table"""
+class ReminderDAO(BaseDAO[Reminder]):
+    """ORM queries for reminders table"""
 
     def __init__(self, session: sessionmaker):
-        super().__init__(User, session)
+        super().__init__(Reminder, session)
 
     async def add_reminder(self, reminder: dto.Reminder) -> dto.Reminder:
         """
-        Add user to database if not added yet. If added, tries to update parameters.
+        Add reminder to database if not added yet.
         :param reminder:
         """
 
