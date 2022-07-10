@@ -9,16 +9,16 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
-from app.core import middlewares
-from app.core.handlers.factory import DefaultHandlersFactory
-from app.core.handlers.private_chat import (
+from core import middlewares
+from core.handlers.factory import DefaultHandlersFactory
+from core.handlers.private_chat import (
     base, reminder
 )
-from app.core.navigations.command import set_bot_commands
-from app.core.updates import worker
-from app.services.database.connector import setup_get_pool
-from app.services.reminder.scheduler import setup_notificator
-from app.settings import config as _config
+from core.navigations.command import set_bot_commands
+from core.updates import worker
+from services.database.connector import setup_get_pool
+from services.reminder.scheduler import setup_notificator
+from settings import config as _config
 
 
 def _init_scheduler() -> AsyncIOScheduler:

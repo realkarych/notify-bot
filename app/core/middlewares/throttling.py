@@ -74,7 +74,7 @@ class ThrottlingMiddleware(BaseMiddleware):
 
         # Prevent flooding
         if throttled.exceeded_count <= 2:
-            await message.reply('<b>Do not spam bot!</b>')
+            await message.reply('<b>Не спамь, дружище...</b>')
 
         # Sleep.
         await asyncio.sleep(delta)
