@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import calendar
+import logging
 from datetime import datetime, timedelta
 
 from aiogram.types import CallbackQuery
@@ -66,9 +67,10 @@ class Calendar:
             "<", callback_data=calendar_callback.new("PREV-MONTH", year, month, day)
         ))
         inline_kb.insert(InlineKeyboardButton(" ", callback_data=ignore_callback))
-        inline_kb.insert(InlineKeyboardButton(
-            ">", callback_data=calendar_callback.new("NEXT-MONTH", year, month, day)
-        ))
+        inline_kb.insert(InlineKeyboardButton(">",
+                                              callback_data=calendar_callback.new(
+                                                  "NEXT-MONTH", year, month, day)
+                                              ))
 
         return inline_kb
 
@@ -127,9 +129,15 @@ class Calendar:
 def _get_ru_month(month: str) -> str:
     """Returns Russian title of month from Eng title of month"""
     # january february march april may june july august september october november december
-    return {
-        "january": "январь", "february": "февраль", "march": "март", "april": "апрель",
-        "may": "май", "june": "июнь", "july": "июль", "august": "август",
-        "september": "сентябрь", "october": "октябрь", "november": "ноябрь",
-        "december": "декабрь"
-    }.get(month.lower()).capitalize()
+
+    try:
+        return {
+            "january": "январь", "february": "февраль", "march": "март", "april": "апрель",
+            "may": "май", "june": "июнь", "july": "июль", "august": "август",
+            "september": "сентябрь", "october": "октябрь", "november": "ноябрь",
+            "december": "декабрь"
+        }.get(month.lower()).capitalize()
+
+    except KeyError:
+        logging.error("Invalid month key. ENG month can't be parsed to RU.")
+        return "Неизвестный месяц"

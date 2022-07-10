@@ -1,7 +1,10 @@
+import asyncio
+from contextlib import suppress
 from datetime import datetime
 
 import pytz
 from aiogram import Bot
+from aiogram.utils.exceptions import BotBlocked, InvalidUserId, UserDeactivated
 
 from app.models import dto
 from app.services.database.dao.reminder import ReminderDAO
@@ -19,13 +22,15 @@ async def setup_notificator(bot: Bot) -> None:
 
     for _reminder in reminders:
         reminder = dto.Reminder.from_db(_reminder)
-        print(reminder)
+
         if _is_date_came(
-            current_datetime=datetime.now(tz=pytz.timezone("UTC")),
-            reminder_datetime=reminder.notify_time
+                current_datetime=datetime.now(tz=pytz.timezone("UTC")),
+                reminder_datetime=reminder.notify_time
         ):
-            await _send_notification(bot=bot, reminder=reminder)
+            with suppress(BotBlocked, InvalidUserId, UserDeactivated):
+                await _send_notification(bot=bot, reminder=reminder)
             await rems_dao.remove_reminder(reminder_id=reminder.id)
+            await asyncio.sleep(0.1)
 
 
 def _is_date_came(current_datetime: datetime, reminder_datetime: datetime) -> bool:
