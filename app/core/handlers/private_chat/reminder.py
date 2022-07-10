@@ -73,10 +73,16 @@ async def submit_minutes(call: CallbackQuery, state: FSMContext):
 
     async with state.proxy() as data:
         submitted_minute = int(call.data.replace("minute_", ""))
+        # Now, date is ready
         data['date'] = data['date'].replace(minute=submitted_minute)
 
-    await call.message.edit_reply_markup(None)
-    await call.message.edit_text(msgs.reminder_created(data['date']))
+        await call.message.edit_reply_markup(None)
+
+        # Check if date is missed
+        if datetime.datetime.now() < data['date']:
+            await call.message.edit_text(msgs.reminder_created(data['date']))
+        else:
+            await call.message.edit_text(msgs.date_missed(submitted_date=data['date']))
 
     await call.message.answer_chat_action(ChatActions.TYPING)
     await asyncio.sleep(1)

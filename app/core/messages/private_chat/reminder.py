@@ -21,4 +21,10 @@ def reminder_created(submitted_date: datetime.datetime) -> str:
            f"👍 <b>Молодец, все данные заполнены, так держать!</b></i>"
 
 
+def date_missed(submitted_date: datetime.datetime) -> str:
+    return f"<i> ❌ <b>Напоминалка не создана</b>\n\nИзвиняй. Дата и время: " \
+           f"<b>{submitted_date.strftime('%d/%m/%Y')}; {submitted_date.strftime('%H:%M')}</b> " \
+           f"некорректны, так как нельзя создать напоминалку в прошлом...</i>"
+
+
 return_to_default_menu = "🔙  <i>Возвращаемся в главное меню!</i>"
