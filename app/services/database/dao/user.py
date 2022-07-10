@@ -2,7 +2,6 @@ from sqlalchemy.orm import sessionmaker
 
 from app.models import dto
 from app.models.database import User
-from app.services.database.dao import mapper
 from app.services.database.dao.base import BaseDAO
 
 
@@ -19,6 +18,20 @@ class UserDAO(BaseDAO[User]):
         """
 
         async with self._session() as session:
-            await session.merge(mapper.map_to_db_user(user))
+            await session.merge(_map_to_db_user(user))
             await session.commit()
             return user
+
+
+def _map_to_db_user(user: dto.User) -> User:
+    """
+    :param user: DTO
+    :return: database user object
+    """
+
+    return User(
+        id=user.id,
+        username=user.username,
+        firstname=user.firstname,
+        lastname=user.lastname
+    )
