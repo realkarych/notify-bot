@@ -37,7 +37,7 @@ async def state_submit_reminder(m: types.Message, state: FSMContext):
     """Adds reminder text to memory storage"""
 
     async with state.proxy() as data:
-        data['reminder'] = m.text
+        data['reminder'] = m.parse_entities()
 
     await m.reply(msgs.set_time_on_calendar, reply_markup=await Calendar().start_calendar())
     await ReminderAddition.date.set()

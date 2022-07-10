@@ -23,20 +23,17 @@ class ReminderDAO(BaseDAO[Reminder]):
             await session.commit()
             return reminder
 
-    async def remove_reminder(self, reminder: dto.Reminder) -> dto.Reminder:
+    async def remove_reminder(self, reminder_id: int) -> None:
         """
         Removes reminder from database.
-        :param reminder:
-        :return reminder: dto
+        :param reminder_id:
         """
 
         async with self._session() as session:
             await session.execute(
-                delete(database.Reminder).where(database.Reminder == _map_to_db_reminder(reminder))
+                delete(database.Reminder).where(database.Reminder.id == reminder_id)
             )
             await session.commit()
-
-        return reminder
 
 
 def _map_to_db_reminder(reminder: dto.Reminder) -> database.Reminder:
