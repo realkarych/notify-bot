@@ -14,17 +14,25 @@ class ResizedReplyKeyboard(ReplyKeyboardMarkup):
         self.resize_keyboard = True
 
 
+# Markup with default menu buttons
 default = ResizedReplyKeyboard(
     keyboard=[
         [
-            KeyboardButton(reply.add_notification)
+            KeyboardButton(reply.add_reminder)
         ],
         [
-            KeyboardButton(reply.notification_list)
+            KeyboardButton(reply.reminder_list)
         ],
         [
             KeyboardButton(reply.check_stats),
             KeyboardButton(reply.about_bot)
         ]
+    ]
+)
+
+# Cancel markup
+cancel = ResizedReplyKeyboard(
+    keyboard=[
+        [KeyboardButton(reply.cancel)]
     ]
 )

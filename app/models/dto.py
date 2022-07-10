@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import datetime
 from dataclasses import dataclass
 
 from aiogram import types as tg
@@ -43,6 +44,30 @@ class User:
             username=user.username,
             firstname=user.firstname,
             lastname=user.lastname
+        )
+
+
+@dataclass
+class Reminder:
+    """Reminder DTO."""
+
+    owner_id: int
+    text: str
+    notify_time: datetime.datetime
+    id: int | None = None
+
+    @classmethod
+    def from_db(cls, reminder: database.Reminder) -> Reminder:
+        """
+        :param reminder:
+        :return: DTO
+        """
+
+        return cls(
+            owner_id=reminder.user_id,
+            text=reminder.text,
+            notify_time=reminder.notify_time,
+            id=reminder.id
         )
 
 
