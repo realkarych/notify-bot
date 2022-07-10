@@ -20,7 +20,7 @@ async def setup_notificator(bot: Bot) -> None:
     for _reminder in reminders:
         reminder = dto.Reminder.from_db(_reminder)
         print(reminder)
-        if is_date_came(
+        if _is_date_came(
             current_datetime=datetime.now(tz=pytz.timezone("UTC")),
             reminder_datetime=reminder.notify_time
         ):
@@ -28,7 +28,12 @@ async def setup_notificator(bot: Bot) -> None:
             await rems_dao.remove_reminder(reminder_id=reminder.id)
 
 
-def is_date_came(current_datetime: datetime, reminder_datetime: datetime) -> bool:
+def _is_date_came(current_datetime: datetime, reminder_datetime: datetime) -> bool:
+    """
+    Compares dates. Returns True if current datetime == reminder's notif datetime or
+    reminder datetime is in the past.
+    """
+
     return all((
         current_datetime.year == reminder_datetime.year,
         current_datetime.month == reminder_datetime.month,
@@ -39,6 +44,6 @@ def is_date_came(current_datetime: datetime, reminder_datetime: datetime) -> boo
 
 
 async def _send_notification(bot: Bot, reminder: dto.Reminder) -> None:
-    """Notification message"""
+    """Notification message sending"""
 
     await bot.send_message(reminder.owner_id, f"🔔 <b>Напоминание:</b>\n\n{reminder.text}")
