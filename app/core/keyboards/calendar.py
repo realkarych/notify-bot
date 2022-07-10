@@ -25,7 +25,9 @@ class Calendar:
         :return: Returns InlineKeyboardMarkup object with the calendar.
         """
         inline_kb = InlineKeyboardMarkup(row_width=7)
-        ignore_callback = calendar_callback.new("IGNORE", year, month, 0)  # for buttons with no answer
+
+        # for buttons with no answer
+        ignore_callback = calendar_callback.new("IGNORE", year, month, 0)
         # First row - Month and Year
         inline_kb.row()
         inline_kb.insert(InlineKeyboardButton(
@@ -89,28 +91,33 @@ class Calendar:
 
             # user picked a day button, return date
             case "DAY":
-                await query.message.delete_reply_markup()  # removing inline keyboard
-                return_data = True, datetime(int(data['year']), int(data['month']), int(data['day']))
+                return_data = True, datetime(
+                    int(data['year']), int(data['month']), int(data['day'])
+                )
 
             # user navigates to previous year, editing message with new calendar
             case "PREV-YEAR":
                 prev_date = temp_date - timedelta(days=365)
-                await query.message.edit_reply_markup(await self.start_calendar(int(prev_date.year), int(prev_date.month)))
+                await query.message.edit_reply_markup(
+                    await self.start_calendar(int(prev_date.year), int(prev_date.month)))
 
             # user navigates to next year, editing message with new calendar
             case "NEXT-YEAR":
                 next_date = temp_date + timedelta(days=365)
-                await query.message.edit_reply_markup(await self.start_calendar(int(next_date.year), int(next_date.month)))
+                await query.message.edit_reply_markup(
+                    await self.start_calendar(int(next_date.year), int(next_date.month)))
 
             # user navigates to previous month, editing message with new calendar
             case "PREV-MONTH":
                 prev_date = temp_date - timedelta(days=1)
-                await query.message.edit_reply_markup(await self.start_calendar(int(prev_date.year), int(prev_date.month)))
+                await query.message.edit_reply_markup(
+                    await self.start_calendar(int(prev_date.year), int(prev_date.month)))
 
             # user navigates to next month, editing message with new calendar
             case "NEXT-MONTH":
                 next_date = temp_date + timedelta(days=31)
-                await query.message.edit_reply_markup(await self.start_calendar(int(next_date.year), int(next_date.month)))
+                await query.message.edit_reply_markup(
+                    await self.start_calendar(int(next_date.year), int(next_date.month)))
 
         # at some point user clicks DAY button, returning date
         return return_data

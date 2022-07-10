@@ -6,3 +6,5 @@ class ReminderAddition(StatesGroup):
 
     text = State()
     date = State()
+    hours = State()
+    minutes = State()

@@ -29,3 +29,10 @@ default = ResizedReplyKeyboard(
         ]
     ]
 )
+
+# Cancel markup
+cancel = ResizedReplyKeyboard(
+    keyboard=[
+        [KeyboardButton(reply.cancel)]
+    ]
+)
