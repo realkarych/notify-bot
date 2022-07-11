@@ -130,3 +130,4 @@ dmypy.json
 app.ini
 .idea/
 poetry.lock
+.log

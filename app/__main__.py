@@ -46,7 +46,8 @@ async def main() -> None:
 
     logging.basicConfig(
         level=logging.WARNING,
-        format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+        format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+        filename=".log"
     )
 
     config: _config.Config = _config.load_config()
