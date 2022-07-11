@@ -16,7 +16,6 @@ apscheduler = "^3.9.1"
 pytz = "^2022.1"
 greenlet = "*"
 
-
 [tool.poetry.dev-dependencies]
 black = "22.6.0"
 isort = "5.10.1"
