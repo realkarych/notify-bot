@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/home/www/code/notify-bot/
-ExecStart=make run
+ExecStart=/home/www/code/notify-bot/venv/bin/python .
 Restart=always
 
 [Install]
